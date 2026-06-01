@@ -1,0 +1,30 @@
+{
+  config,
+  lib,
+  wlib,
+  pkgs,
+  ...
+}:
+let
+  settingsFormat = pkgs.formats.toml;
+in
+{
+  imports = [ wlib.modules.default ];
+
+  options = {
+    settings = lib.mkOption {
+      type = settingsFormat.type;
+      description = ''
+        Nix attribute set to configure greetd. [greetd configuration documentation](https://man.sr.ht/~kennylevinsen/greetd/)
+      '';
+    };
+  };
+
+  config = {
+    package = lib.mkDefault pkgs.greetd;
+
+    flags."--config" = settingsFormat.generate "greetd.toml" config.settings;
+
+    meta.maintainers = [ wlib.maintainers.clay53 ];
+  };
+}
