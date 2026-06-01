@@ -6,7 +6,7 @@
   ...
 }:
 let
-  settingsFormat = pkgs.formats.toml {};
+  settingsFormat = pkgs.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -14,7 +14,7 @@ in
   options = {
     settings = lib.mkOption {
       type = settingsFormat.type;
-      default = {};
+      default = { };
       description = ''
         Nix attribute set to configure greetd. [greetd configuration documentation](https://man.sr.ht/~kennylevinsen/greetd/)
       '';
