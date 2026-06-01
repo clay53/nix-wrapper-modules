@@ -25,7 +25,7 @@ in
     package = lib.mkDefault pkgs.greetd;
 
     constructFiles.settings = {
-      content = settingsFormat.generate "greetd.toml" config.settings;
+      builder = settingsFormat.generate "greetd.toml" config.settings;
       relPath = "greetd.toml";
     };
 
