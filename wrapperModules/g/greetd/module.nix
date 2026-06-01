@@ -25,8 +25,8 @@ in
     package = lib.mkDefault pkgs.greetd;
 
     constructFiles.settings = {
-      content = builtins.readFile (settingsFormat.generate "greetd.toml" config.settings);
-      relPath = "greetd.toml";
+      content = builtins.readFile (settingsFormat.generate "greet.toml" config.settings);
+      relPath = "greet.toml";
     };
 
     flags."--config" = config.constructFiles.settings.path;
