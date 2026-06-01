@@ -5,15 +5,15 @@
   pkgs,
   ...
 }:
-let
-  settingsFormat = pkgs.formats.toml { };
-in
 {
   imports = [ wlib.modules.default ];
 
   options = {
     settings = lib.mkOption {
-      type = settingsFormat.type;
+      type = wlib.types.structuredValueWith {
+        nullable = false;
+        typeName = "TOML";
+      };
       default = { };
       description = ''
         Nix attribute set to configure greetd. [greetd configuration documentation](https://man.sr.ht/~kennylevinsen/greetd/)
@@ -24,12 +24,13 @@ in
   config = {
     package = lib.mkDefault pkgs.greetd;
 
-    constructFiles.settings = {
-      content = builtins.readFile (settingsFormat.generate "greet.toml" config.settings);
-      relPath = "greet.toml";
+    constructFiles.generatedConfig = {
+      content = builtins.toJSON config.settings;
+      relPath = "${config.binName}-config.toml";
+      builder = ''${pkgs.remarshal}/bin/json2toml "$1" "$2"'';
     };
 
-    flags."--config" = config.constructFiles.settings.path;
+    flags."--config" = config.constructFiles.generatedConfig.path;
 
     meta.maintainers = [ wlib.maintainers.clay53 ];
   };
