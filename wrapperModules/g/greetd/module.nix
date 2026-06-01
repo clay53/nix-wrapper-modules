@@ -23,7 +23,12 @@ in
   config = {
     package = lib.mkDefault pkgs.greetd;
 
-    flags."--config" = settingsFormat.generate "greetd.toml" config.settings;
+    constructFiles.settings = {
+      content = builtins.readFile (settingsFormat.generate "greetd.toml" config.settings);
+      relPath = "greetd.toml";
+    };
+
+    flags."--config" = config.constructFiles.greetd.path;
 
     meta.maintainers = [ wlib.maintainers.clay53 ];
   };
