@@ -28,7 +28,7 @@ in
       relPath = "greetd.toml";
     };
 
-    flags."--config" = config.constructFiles.greetd.path;
+    flags."--config" = config.constructFiles.settings.path;
 
     meta.maintainers = [ wlib.maintainers.clay53 ];
   };
