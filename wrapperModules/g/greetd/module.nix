@@ -6,7 +6,7 @@
   ...
 }:
 let
-  settingsFormat = pkgs.formats.toml;
+  settingsFormat = pkgs.formats.toml {};
 in
 {
   imports = [ wlib.modules.default ];
